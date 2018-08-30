@@ -6,7 +6,7 @@ services:
     container_name: postgres_db
     volumes:
       - ./postgresql:/var/lib/postgresql
-      - ./db-init-scripts:/docker-entrypoint-initdb.d
+      - ./db-init-scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - "5432:5432"
   backend:
@@ -16,7 +16,7 @@ services:
       - ./backend:/backend
     ports:
       - "3000:3000"
-    command: "/bin/bash -c 'cd /backend && npm install && npm start'"
+    command: "/bin/bash -c 'cd /backend && npm install && node knexfile.js && npm run knex migrate:latest && npm start'"
     links:
       - database:db
   
