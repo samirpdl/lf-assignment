@@ -3,8 +3,19 @@
 let config = {
   host: 'database'
 };
-module.exports = {
 
+
+var knex = require('knex')({
+  client: 'pg',
+  connection: {
+    host: config.host,
+    user: 'postgres',
+    password: ''
+  }
+});
+
+knex.raw('CREATE DATABASE lfassignment IF NOT EXISTS;')
+return module.exports = {
   development: {
     client: 'pg',
     connection: {
@@ -23,14 +34,3 @@ module.exports = {
   },
 
 };
-
-var knex = require('knex')({
-  client: 'pg',
-  connection: {
-    host: config.host,
-    user: 'postgres',
-    password: ''
-  }
-});
-
-knex.raw('CREATE DATABASE lfassignment IF NOT EXISTS;')
